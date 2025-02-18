@@ -45,10 +45,16 @@ func escolha(opcao int) {
 }
 func monitoramento() {
 	fmt.Println("Digite o site")
-	corpo := "https://"
-	var caminho string
-	fmt.Scan(&caminho)
-	site := corpo + caminho
+	var site string
+	fmt.Scan(&site)
 	resposta, _ := http.Get(site)
-	fmt.Println(resposta)
+	if resposta.StatusCode == 200 {
+		fmt.Println("o site tá funcionando")
+	} else {
+		fmt.Println("o site não tá funcionado")
+	}
+	var tentar int
+	fmt.Println("1-SIM")
+	fmt.Println("2-NÃO")
+	fmt.Scan(&tentar)
 }
