@@ -11,18 +11,19 @@ func main() {
 	escolha(opcao)
 }
 func menu() int {
-	var opcoes [3]string
+	opcoes := []string{
+		"1- Iniciar Monitoramento",
+		"2- Exibir logs",
+		"3- Sair do programa",
+	}
 	var opcao int
 	nome := "douglas"
 
 	for {
 		fmt.Println("Olá Sr.", nome, "Escolha um numero do menu:")
-		opcoes[0] = "1- Iniciar Monitoramento"
-		opcoes[1] = "2- Exibir logs"
-		opcoes[2] = "3- Sair do programa"
-		fmt.Println(opcoes[0])
-		fmt.Println(opcoes[1])
-		fmt.Println(opcoes[2])
+		for i := 0; i < len(opcoes); i++ {
+			fmt.Println(opcoes[i])
+		}
 		fmt.Scan(&opcao)
 		if opcao != 0 {
 			break
