@@ -4,11 +4,23 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func main() {
+	apresentacao()
 	opcao := menu()
 	escolha(opcao)
+
+}
+func apresentacao() {
+	var nome string
+	fmt.Println("Digite seu nome:")
+	fmt.Scan(&nome)
+	fmt.Println("Olá SR.", nome, "Seja bem vindo ao seu monitorador de sites")
+	fmt.Println("Oque deseja fazer hoje?")
+	fmt.Println("")
+	fmt.Println("Digite só uma opção")
 }
 func menu() int {
 	opcoes := []string{
@@ -17,10 +29,7 @@ func menu() int {
 		"3- Sair do programa",
 	}
 	var opcao int
-	nome := "douglas"
-
 	for {
-		fmt.Println("Olá Sr.", nome, "Escolha um numero do menu:")
 		for i := 0; i < len(opcoes); i++ {
 			fmt.Println(opcoes[i])
 		}
@@ -43,18 +52,44 @@ func escolha(opcao int) {
 		os.Exit(0)
 	}
 }
-func monitoramento() {
-	fmt.Println("Digite o site")
-	var site string
-	fmt.Scan(&site)
-	resposta, _ := http.Get(site)
-	if resposta.StatusCode == 200 {
-		fmt.Println("o site tá funcionando")
-	} else {
-		fmt.Println("o site não tá funcionado")
+func monitoramento() []string {
+	fmt.Println("Digite quantos sites voce quer monitora *apenas numeros")
+	var numero_sites int
+	fmt.Scan(&numero_sites)
+	sites := []string{}
+	for i := 0; i < numero_sites; i++ {
+		fmt.Printf("digite o site")
+		var site string
+		fmt.Scan(&site)
+		sites = append(sites, site)
 	}
-	var tentar int
-	fmt.Println("1-SIM")
-	fmt.Println("2-NÃO")
-	fmt.Scan(&tentar)
+	testando_sites(sites)
+	reiniciar()
+	return sites
+}
+func testando_sites(sites []string) {
+	for j := 0; j < len(sites); j++ {
+		resposta, _ := http.Get(sites[j])
+		if resposta.StatusCode == 200 {
+			fmt.Println("o site tá funcionando", sites[j])
+		} else {
+			fmt.Println("o site não tá funcionado", sites[j])
+		}
+	}
+}
+func reiniciar() string {
+	var reiniciar string
+	fmt.Println("Deseja fazer uma nova consulta?")
+	fmt.Println("1- SIM")
+	fmt.Println("2- NÃO")
+	fmt.Scan(&reiniciar)
+	resposta := strings.ToUpper(reiniciar)
+	if resposta == "SIM" || resposta == "1" {
+		monitoramento()
+	} else if resposta == "NÃO" || resposta == "2" {
+		menu()
+	} else {
+
+	}
+	return resposta
 }
