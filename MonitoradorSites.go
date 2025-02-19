@@ -78,6 +78,26 @@ func ListarSites(sitesCadastrados []string) {
 		fmt.Println(index, "-", site)
 	}
 	fmt.Println("=======================")
+	MenuSites(sitesCadastrados)
+}
+func MenuSites(siteCadastrados []string) {
+	println("---Oque desejas fazer agora---")
+	var OpcoesMenusite = []string{
+		"1- Monitorar Sites",
+		"2- Exibir Logs",
+		"3- Cadastrar no Site",
+		"4- Editar Sites",
+		"5- Voltar ao menu inicial",
+	}
+	var EscolhaMenusite int
+	for i := 0; i < len(OpcoesMenusite); i++ {
+		fmt.Println(OpcoesMenusite[i])
+	}
+	fmt.Scan(&EscolhaMenusite)
+	switch EscolhaMenusite {
+	case 1:
+		monitoramento(siteCadastrados)
+	}
 }
 func monitoramento(sitesCadastrados []string) []string {
 	sites := sitesCadastrados
