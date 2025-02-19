@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -9,24 +11,17 @@ import (
 
 func main() {
 	apresentacao()
-	opcao := menu()
-	escolha(opcao)
-
 }
 func apresentacao() {
-	var nome string
-	fmt.Println("Digite seu nome:")
-	fmt.Scan(&nome)
-	fmt.Println("Olá SR.", nome, "Seja bem vindo ao seu monitorador de sites")
-	fmt.Println("Oque deseja fazer hoje?")
-	fmt.Println("")
-	fmt.Println("Digite só uma opção")
+	fmt.Println("Bem vindo escolha uma opção")
+	menu()
 }
 func menu() int {
 	opcoes := []string{
-		"1- Iniciar Monitoramento",
-		"2- Exibir logs",
-		"3- Sair do programa",
+		"1- Listar sites",
+		"2- Iniciar Monitoramento",
+		"3- Exibir logs",
+		"4- Sair do programa",
 	}
 	var opcao int
 	for {
@@ -38,19 +33,42 @@ func menu() int {
 			break
 		}
 	}
+	escolha(opcao)
 	return opcao
 }
 
 func escolha(opcao int) {
 	switch opcao {
 	case 1:
-		monitoramento()
+		ListarSites()
 	case 2:
-		fmt.Println("Exibindo logs:")
+		monitoramento()
 	case 3:
+		println("Exibidindologs")
+	case 4:
 		fmt.Println("Saindo do programa")
 		os.Exit(0)
 	}
+
+}
+func ListarSites() {
+	arquivo, _ := os.Open("sites.txt")
+	var sites []string
+	fmt.Println("---Lista de Sites Cadastrados---")
+	fmt.Println("==================================")
+	for {
+		lerSites := bufio.NewReader(arquivo)
+		site, erro := lerSites.ReadString('\n')
+		site = strings.TrimSpace(site)
+		sites = append(sites, site)
+		for index, site := range sites {
+			fmt.Println(index, "-", site)
+		}
+		if erro == io.EOF {
+			break
+		}
+	}
+	fmt.Println("==================================")
 }
 func monitoramento() []string {
 	fmt.Println("Digite quantos sites voce quer monitora *apenas numeros")
@@ -93,3 +111,10 @@ func reiniciar() string {
 	}
 	return resposta
 }
+
+/* Criações pendentes
+-criar o arquivo txt
+-fazer um menu interativo que cadastre,edite,ou esclua sites
+-programar consultas
+-enviar via emails erros
+*/
