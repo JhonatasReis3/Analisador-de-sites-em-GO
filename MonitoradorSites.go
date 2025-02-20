@@ -12,33 +12,30 @@ func main() {
 	apresentacao()
 }
 func apresentacao() {
-	fmt.Println("---Bem vindo escolha uma opção---")
-	opcao := menuBoasvindas()
-	fmt.Println(opcao)
+	fmt.Println("===Bem vindo escolha uma opção===")
+	menuBoasvindas()
+
 }
-func menuBoasvindas() int {
-	opcoes := []string{
+func menuBoasvindas() {
+	CabecalhoBoasVindas := []string{
 		"1-Listar sites",
 		"2-Iniciar Monitoramento",
 		"3-Exibir logs",
 		"4-Sair do programa",
 	}
-	var opcao int
+	var EscolhaCabecalho int
 	sitesCadastrados := ObterSites()
 	for {
-		for i := 0; i < len(opcoes); i++ {
-			fmt.Println(opcoes[i])
+		for i := 0; i < len(CabecalhoBoasVindas); i++ {
+			fmt.Println(CabecalhoBoasVindas[i])
 		}
-		fmt.Scan(&opcao)
-		if opcao != 0 {
+		fmt.Println("================================")
+		fmt.Scan(&EscolhaCabecalho)
+		if EscolhaCabecalho >= 1 && EscolhaCabecalho <= len(CabecalhoBoasVindas) {
 			break
 		}
 	}
-	escolha(opcao, sitesCadastrados)
-	return opcao
-	/*
-		o erro está que a variavel opcao está compilando o numero do comando, preciso resolver
-	*/
+	escolha(EscolhaCabecalho, sitesCadastrados)
 }
 
 func escolha(opcao int, sitesCadastrados []string) {
@@ -73,19 +70,19 @@ func ObterSites() []string {
 	return sitesCadastrados
 }
 func ListarSites(sitesCadastrados []string) {
-	fmt.Println("---Lista de Sites Cadastrados---")
+	fmt.Println("===Lista de Sites Cadastrados===")
 	for index, site := range sitesCadastrados {
 		fmt.Println(index, "-", site)
 	}
-	fmt.Println("=======================")
+	fmt.Println("================================")
 	MenuSites(sitesCadastrados)
 }
 func MenuSites(siteCadastrados []string) {
-	println("---Oque desejas fazer agora---")
+	println("===Oque desejas fazer agora===")
 	var OpcoesMenusite = []string{
 		"1- Monitorar Sites",
 		"2- Exibir Logs",
-		"3- Cadastrar no Site",
+		"3- Cadastrar novo Site",
 		"4- Editar Sites",
 		"5- Voltar ao menu inicial",
 	}
@@ -93,6 +90,7 @@ func MenuSites(siteCadastrados []string) {
 	for i := 0; i < len(OpcoesMenusite); i++ {
 		fmt.Println(OpcoesMenusite[i])
 	}
+	fmt.Println("================================")
 	fmt.Scan(&EscolhaMenusite)
 	switch EscolhaMenusite {
 	case 1:
@@ -111,3 +109,12 @@ func monitoramento(sitesCadastrados []string) []string {
 	}
 	return sites
 }
+
+/*
+- usuar a função os openfile para criar e escever em um arquivos, vamos também por um conometrô para enviar sempre os logs para um arquivo especifico
+-tratar os erros
+-cadastrar novo sites
+-escluir ou editar sites
+-função write string para escrever em arquivos
+- codigo vai verificar os status do codigo sempre a cada uma hora, e ao final do dia sempre vai limpar o txt.log pra não acumular memoria
+*/
